@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   labels:
+    test: update  
     workflow_id: 3c9f791e-5947-47cd-9bb4-df4e5c593574
   name: argowf-chaos-pod-delete-1610097608
   namespace: kubera
