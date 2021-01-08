@@ -3,6 +3,7 @@ kind: Workflow
 metadata:
   labels:
     workflow_id: 41aed44a-776e-466b-801e-f2bb22cabb70
+    test: test-data-update
   name: argowf-chaos-pod-delete-1610088738
   namespace: kubera
 spec:
