@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   labels:
+    test: hello
     cluster_id: 6d44d006-4b75-4e7a-b9c7-02998a257f98
     workflow_id: 1b8f3881-3940-47ba-a4ac-31aafbcf6c18
   name: argowf-chaos-pod-delete-1610198408
