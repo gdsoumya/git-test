@@ -3,6 +3,7 @@ kind: Workflow
 metadata:
   labels:
     cluster_id: 6d44d006-4b75-4e7a-b9c7-02998a257f98
+    workflow_id: b45c528d-f60d-4f21-9cfe-170c60e5e215
   name: my-workflow
   namespace: kubera
 spec:
