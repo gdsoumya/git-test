@@ -2,8 +2,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   labels:
-    test: hello
     cluster_id: f3635a44-d921-4a2a-9475-dfe1be4a5b7b
+    test: hello
+    workflow_id: b917d45f-1782-4e28-960b-6ebcb0c3f194
   name: wf-111
   namespace: kubera
 spec:
