@@ -3,6 +3,7 @@ kind: Workflow
 metadata:
   labels:
     cluster_id: 88432d53-d96c-4fe6-b7e9-89bddbd9d866
+    workflow_id: d07c1fc9-a16c-4362-bdab-4b699ed3bd94
   name: wf1
   namespace: litmus
 spec:
