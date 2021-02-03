@@ -1,0 +1,87 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  labels:
+    cluster_id: 2d784c91-67b6-438e-8ad5-685bdea16389
+    workflow_id: 038f181b-d6c8-4e7e-b3bb-527d6b255a68
+  name: custom-chaos-workflow-1612331419
+  namespace: kubera
+spec:
+  arguments:
+    parameters:
+    - name: adminModeNamespace
+      value: kubera
+  entrypoint: custom-chaos
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+  serviceAccountName: argo-chaos
+  templates:
+  - name: custom-chaos
+    steps:
+    - - name: install-chaos-experiments
+        template: install-chaos-experiments
+    - - name: pod-delete
+        template: pod-delete
+    - - name: revert-chaos
+        template: revert-chaos
+  - container:
+      args:
+      - kubectl apply -f /tmp/pod-delete.yaml -n {{workflow.parameters.adminModeNamespace}} | sleep 30
+      command:
+      - sh
+      - -c
+      image: lachlanevenson/k8s-kubectl
+    inputs:
+      artifacts:
+      - name: pod-delete
+        path: /tmp/pod-delete.yaml
+        raw:
+          data: "apiVersion: litmuschaos.io/v1alpha1\ndescription:\n  message: |\n    Deletes a pod belonging to a deployment/statefulset/daemonset\nkind: ChaosExperiment\nmetadata:\n  name: pod-delete\n  labels:\n    name: pod-delete\n    app.kubernetes.io/part-of: litmus\n    app.kubernetes.io/component: chaosexperiment\n    app.kubernetes.io/version: latest\nspec:\n  definition:\n    scope: Namespaced\n    permissions:\n      - apiGroups:\n          - \"\"\n          - \"apps\"\n          - \"apps.openshift.io\"\n          - \"argoproj.io\"\n          - \"batch\"\n          - \"litmuschaos.io\"\n        resources:\n          - \"deployments\"\n          - \"jobs\"\n          - \"pods\"\n          - \"pods/log\"\n          - \"replicationcontrollers\"\n          - \"deployments\"\n          - \"statefulsets\"\n          - \"daemonsets\"\n          - \"replicasets\"\n          - \"deploymentconfigs\"\n          - \"rollouts\"\n          - \"pods/exec\"\n          - \"events\"\n          - \"chaosengines\"\n          - \"chaosexperiments\"\n          - \"chaosresults\"\n        verbs:\n          - \"create\"\n          - \"list\"\n          - \"get\"\n          - \"patch\"\n          - \"update\"\n          - \"delete\"\n          - \"deletecollection\"\n    image: \"litmuschaos/go-runner:latest\"\n    imagePullPolicy: Always\n    args:\n    - -c\n    - ./experiments -name pod-delete\n    command:\n    - /bin/bash\n    env:\n\n    - name: TOTAL_CHAOS_DURATION\n      value: '15'\n\n    # Period to wait before and after injection of chaos in sec\n    - name: RAMP_TIME\n      value: ''\n\n    - name: FORCE\n      value: 'true'\n\n    - name: CHAOS_INTERVAL\n      value: '5'\n\n    ## percentage of total pods to target\n    - name: PODS_AFFECTED_PERC\n      value: ''\n\n    - name: LIB\n      value: 'litmus'    \n\n    - name: TARGET_PODS\n      value: ''\n\n    ## it defines the sequence of chaos execution for multiple target pods\n    ## supported values: serial, parallel\n    - name: SEQUENCE\n      value: 'parallel'\n      \n    labels:\n      name: pod-delete\n      app.kubernetes.io/part-of: litmus\n      app.kubernetes.io/component: experiment-job\n      app.kubernetes.io/version: latest\n"
+    name: install-chaos-experiments
+  - container:
+      args:
+      - -file=/tmp/chaosengine-pod-delete.yaml
+      - -saveName=/tmp/engine-name
+      image: litmuschaos/litmus-checker:latest
+    inputs:
+      artifacts:
+      - name: pod-delete
+        path: /tmp/chaosengine-pod-delete.yaml
+        raw:
+          data: |
+            apiVersion: litmuschaos.io/v1alpha1
+            kind: ChaosEngine
+            metadata:
+              name: pod-delete-1612331441
+              namespace: "{{workflow.parameters.adminModeNamespace}}"
+            spec:
+              appinfo:
+                appns: kubera
+                applabel: app=nginx
+                appkind: deployment
+              annotationCheck: "false"
+              engineState: active
+              chaosServiceAccount: litmus-admin
+              monitoring: false
+              jobCleanUpPolicy: delete
+              experiments:
+                - name: pod-delete
+                  spec:
+                    components:
+                      env:
+                        - name: TOTAL_CHAOS_DURATION
+                          value: "20"
+                        - name: CHAOS_INTERVAL
+                          value: "10"
+                        - name: FORCE
+                          value: "false"
+    name: pod-delete
+  - container:
+      args:
+      - kubectl delete chaosengine pod-delete-1612331441  -n {{workflow.parameters.adminModeNamespace}}
+      command:
+      - sh
+      - -c
+      image: lachlanevenson/k8s-kubectl
+    name: revert-chaos
