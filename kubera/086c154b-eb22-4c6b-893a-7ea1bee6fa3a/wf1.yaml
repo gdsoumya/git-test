@@ -4,6 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     cluster_id: 939d9cb6-9821-433f-acee-dcc82a0adf34
+    workflow_id: 6e6fe3bf-24de-487f-8807-2546ed51b5c6
   name: wf1
   namespace: kubera
 spec:
