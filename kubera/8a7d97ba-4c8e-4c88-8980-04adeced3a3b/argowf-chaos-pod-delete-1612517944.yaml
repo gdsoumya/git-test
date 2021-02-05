@@ -3,6 +3,7 @@ kind: Workflow
 metadata:
   creationTimestamp: null
   labels:
+    test: "sfdsf"
     cluster_id: 761e25c3-7602-4516-91c6-d4f16cd8187a
     workflow_id: 0989e7e2-78ff-4273-ad48-3c714b317448
   name: argowf-chaos-pod-delete-1612517944
