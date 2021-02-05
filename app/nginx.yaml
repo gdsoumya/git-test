@@ -1,6 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    litmuschaos.io/gitops: "true"
+    litmuschaos.io/workflow: f14722d6-ac0b-4b08-be0a-4252afd0c818
   labels:
     app: nginx
   name: nginx
