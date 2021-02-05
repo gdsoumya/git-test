@@ -1,9 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kuberachaos.io/gitops: "true"
-    kuberachaos.io/workflow: ce1b4d3e-b55a-4dfe-9fce-e9bc5a28627b
   labels:
     app: nginx
   name: nginx
