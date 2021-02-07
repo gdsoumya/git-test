@@ -33,6 +33,9 @@ spec:
     - - arguments: {}
         name: revert-chaos
         template: revert-chaos
+    - - arguments: {}
+        name: echo-chaos
+        template: echo-chaos
   - arguments: {}
     container:
       args:
@@ -105,6 +108,20 @@ spec:
     inputs: {}
     metadata: {}
     name: revert-chaos
+    outputs: {}
+  - arguments: {}
+    container:
+      args:
+      - echo "chaos"
+      command:
+      - bash
+      - -c
+      image: bash
+      name: ""
+      resources: {}
+    inputs: {}
+    metadata: {}
+    name: echo-chaos
     outputs: {}
 status:
   finishedAt: null
