@@ -1,9 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    litmuschaos.io/gitops: "true"
-    litmuschaos.io/workflow: 94a0ceb7-a4bc-413d-9922-c4386e2f1ea6
   labels:
     app: myapp
   name: myapp
@@ -18,7 +15,7 @@ spec:
         app: myapp
     spec:
       containers:
-      - image: gdsoumya/myapp:2.0
+      - image: gdsoumya/myapp:1.0
         imagePullPolicy: Always
         name: myapp
         ports:
