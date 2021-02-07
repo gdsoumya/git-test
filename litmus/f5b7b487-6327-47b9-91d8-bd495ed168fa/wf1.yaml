@@ -4,7 +4,7 @@ metadata:
   labels:
     cluster_id: 75611bf9-4221-4c48-a98d-0912ef64016e
   namespace: litmus
-  name: kube-proxy-pod-delete
+  name: wf1
 spec:
   entrypoint: argowf-chaos
   serviceAccountName: argo-chaos
