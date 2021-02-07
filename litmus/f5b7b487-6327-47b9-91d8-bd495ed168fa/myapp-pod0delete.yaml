@@ -121,7 +121,7 @@ spec:
       resources: {}
     inputs: {}
     metadata: {}
-    name: revert-chaos
+    name: echo-chaos
     outputs: {}
 status:
   finishedAt: null
