@@ -1,9 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    litmuschaos.io/gitops: "true"
-    litmuschaos.io/workflow: "06c6964d-829d-41fc-9de2-c274cc8bc185"
   labels:
     app: myapp
   name: myapp
