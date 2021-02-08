@@ -33,7 +33,7 @@ spec:
     - - arguments: {}
         name: revert-chaos
         template: revert-chaos
-   - - arguments: {}
+    - - arguments: {}
         name: echo-chaos
         template: echo-chaos
   - arguments: {}
