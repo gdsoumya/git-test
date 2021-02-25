@@ -4,6 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     cluster_id: ff9e2c50-b64d-479e-a65c-9520b59df953
+    workflow_id: 0a35664a-2644-4e7e-be0a-631af0d90303
   name: wf1
   namespace: litmus
 spec:
