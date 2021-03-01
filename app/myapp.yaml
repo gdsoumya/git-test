@@ -4,6 +4,9 @@ metadata:
   labels:
     app: myapp
   name: myapp
+  annotations:
+    litmuschaos.io/gitops: "true"
+    litmuschaos.io/workflow: 0ddb4723-8f0f-4990-a56b-2cce2cc8d4e7
 spec:
   replicas: 1
   selector:
@@ -15,7 +18,7 @@ spec:
         app: myapp
     spec:
       containers:
-      - image: gdsoumya/myapp:1.0
+      - image: gdsoumya/myapp:2.0
         imagePullPolicy: Always
         name: myapp
         ports:
