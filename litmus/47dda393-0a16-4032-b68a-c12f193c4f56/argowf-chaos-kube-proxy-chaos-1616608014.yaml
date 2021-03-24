@@ -71,7 +71,7 @@ spec:
                 appns: kube-system
                 applabel: k8s-app=kube-proxy
                 appkind: daemonset
-              jobCleanUpPolicy: retain
+              jobCleanUpPolicy: delete
               monitoring: false
               annotationCheck: "false"
               engineState: active
