@@ -34,7 +34,7 @@ spec:
         resources: {}
         statusCheckTimeouts: {}
       rank: 0
-  jobCleanUpPolicy: retain
+  jobCleanUpPolicy: delete
 status:
   engineStatus: ""
   experiments: null
