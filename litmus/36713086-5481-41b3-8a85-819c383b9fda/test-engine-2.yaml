@@ -4,7 +4,9 @@ metadata:
   creationTimestamp: null
   labels:
     cluster_id: 5c64ea82-1d58-44c4-b2a8-f00db013f7ec
+    type: standalone_workflow
     weight: "8"
+    workflow_id: 066a8218-f807-405d-a42f-c5cec979ea00
   name: test-engine-2
   namespace: litmus
 spec:
