@@ -1,0 +1,41 @@
+apiVersion: litmuschaos.io/v1alpha1
+kind: ChaosEngine
+metadata:
+  creationTimestamp: null
+  labels:
+    cluster_id: 5c64ea82-1d58-44c4-b2a8-f00db013f7ec
+    instance_id: dc364c5e-09e0-472c-ad6a-89b6966d2261
+    type: standalone_workflow
+    weight: "10"
+    workflow_id: 8cc60cc8-33ca-49c7-8d3f-f994914564fd
+  name: test-engine
+  namespace: litmus
+spec:
+  annotationCheck: "false"
+  appinfo:
+    appkind: deployment
+    applabel: app=nginx
+    appns: default
+  chaosServiceAccount: litmus-admin
+  components:
+    runner:
+      resources: {}
+  engineState: active
+  experiments:
+  - name: pod-delete
+    spec:
+      components:
+        env:
+        - name: TOTAL_CHAOS_DURATION
+          value: "30"
+        - name: CHAOS_INTERVAL
+          value: "10"
+        - name: FORCE
+          value: "false"
+        resources: {}
+        statusCheckTimeouts: {}
+      rank: 0
+  jobCleanUpPolicy: retain
+status:
+  engineStatus: ""
+  experiments: null
