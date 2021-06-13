@@ -4,6 +4,8 @@ metadata:
   creationTimestamp: null
   labels:
     cluster_id: a34949c4-106f-445b-a2cd-470d7bc1f78e
+    workflow_id: 76f8d5be-2c56-4ad9-9bc2-66226cb5e51d
+    workflows.argoproj.io/controller-instanceid: a34949c4-106f-445b-a2cd-470d7bc1f78e
   name: custom-chaos-workflow
   namespace: litmus
 spec:
@@ -174,7 +176,7 @@ spec:
   - arguments: {}
     container:
       args:
-      - 'echo "hello"'
+      - echo "hello"
       command:
       - sh
       - -c
