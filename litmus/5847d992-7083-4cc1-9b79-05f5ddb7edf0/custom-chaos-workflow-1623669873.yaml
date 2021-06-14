@@ -29,14 +29,8 @@ spec:
     outputs: {}
     steps:
     - - arguments: {}
-        name: install-chaos-experiments
-        template: install-chaos-experiments
-    - - arguments: {}
-        name: pod-delete
-        template: pod-delete
-    - - arguments: {}
-        name: revert-chaos
-        template: revert-chaos
+        name: echo-chaos
+        template: echo-chaos
   - arguments: {}
     container:
       args:
@@ -185,7 +179,7 @@ spec:
   - arguments: {}
     container:
       args:
-      - 'kubectl delete chaosengine -l ''instance_id in (fb5d2240-4c47-4f8b-a5c5-cbc57ce862d0, )'' -n {{workflow.parameters.adminModeNamespace}} '
+      - 'echo "chaos"'
       command:
       - sh
       - -c
