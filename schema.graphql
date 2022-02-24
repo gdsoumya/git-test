@@ -1,0 +1,1088 @@
+directive @authorized on FIELD_DEFINITION
+type ActionPayload {
+  request_type: String!
+  k8s_manifest: String!
+  namespace: String!
+  external_data: String
+  username: String
+}
+
+type AgentStat {
+  Ns: Int!
+  Cluster: Int!
+  Total: Int!
+  Active: Int!
+}
+
+type Annotation {
+  Categories: String!
+  Vendor: String!
+  CreatedAt: String!
+  Repository: String!
+  Support: String!
+  ChartDescription: String!
+}
+
+type annotationsPromResponse {
+  queryid: String!
+  legends: [String]
+  tsvs: [[annotationsTimeStampValue]]
+  subDataArray: [[subData]]
+}
+
+type annotationsTimeStampValue {
+  date: Float
+  value: Int
+}
+
+input applicationMetadata {
+  namespace: String!
+  applications: [resource]
+}
+
+type applicationMetadataResponse {
+  namespace: String!
+  applications: [resourceResponse]
+}
+
+enum AuthType {
+  none
+  basic
+  token
+  ssh
+}
+
+input ChaosWorkFlowInput {
+  workflow_id: String
+  workflow_manifest: String!
+  cronSyntax: String!
+  workflow_name: String!
+  workflow_description: String!
+  weightages: [WeightagesInput!]!
+  isCustomWorkflow: Boolean!
+  project_id: ID!
+  cluster_id: ID!
+}
+
+type ChaosWorkFlowResponse {
+  workflow_id: String!
+  cronSyntax: String!
+  workflow_name: String!
+  workflow_description: String!
+  isCustomWorkflow: Boolean!
+}
+
+type Chart {
+  ApiVersion: String!
+  Kind: String!
+  Metadata: Metadata!
+  Spec: Spec!
+  PackageInfo: PackageInformation!
+}
+
+type Charts {
+  Charts: [Chart!]!
+}
+
+input CloningInput {
+  HubName: String!
+  ProjectID: String!
+  RepoBranch: String!
+  RepoURL: String!
+  IsPrivate: Boolean!
+  AuthType: AuthType!
+  Token: String
+  UserName: String
+  Password: String
+  SSHPrivateKey: String
+}
+
+type Cluster {
+  cluster_id: ID!
+  project_id: ID!
+  cluster_name: String!
+  description: String
+  platform_name: String!
+  access_key: String!
+  is_registered: Boolean!
+  is_cluster_confirmed: Boolean!
+  is_active: Boolean!
+  updated_at: String!
+  created_at: String!
+  cluster_type: String!
+  no_of_schedules: Int
+  no_of_workflows: Int
+  token: String!
+  agent_namespace: String
+  serviceaccount: String
+  agent_scope: String!
+  agent_ns_exists: Boolean
+  agent_sa_exists: Boolean
+  last_workflow_timestamp: String!
+  start_time: String!
+  version: String!
+}
+
+type ClusterAction {
+  project_id: ID!
+  action: ActionPayload!
+}
+
+input ClusterActionInput {
+  cluster_id: ID!
+  action: String!
+}
+
+type ClusterConfirmResponse {
+  isClusterConfirmed: Boolean!
+  newAccessKey: String
+  cluster_id: String
+}
+
+type ClusterEvent {
+  event_id: ID!
+  event_type: String!
+  event_name: String!
+  description: String!
+  cluster: Cluster!
+}
+
+input ClusterEventInput {
+  event_name: String!
+  description: String!
+  cluster_id: String!
+  access_key: String!
+}
+
+input ClusterIdentity {
+  cluster_id: String!
+  access_key: String!
+  version: String!
+}
+
+input ClusterInput {
+  cluster_name: String!
+  description: String
+  platform_name: String!
+  project_id: ID!
+  cluster_type: String!
+  agent_namespace: String
+  serviceaccount: String
+  agent_scope: String!
+  agent_ns_exists: Boolean
+  agent_sa_exists: Boolean
+  skip_ssl: Boolean
+  node_selector: String
+  tolerations: [Toleration]
+}
+
+type clusterRegResponse {
+  token: String!
+  cluster_id: String!
+  cluster_name: String!
+}
+
+input createDBInput {
+  ds_id: String!
+  db_name: String!
+  db_type_name: String!
+  db_type_id: String!
+  db_information: String
+  chaos_event_query_template: String!
+  chaos_verdict_query_template: String!
+  application_metadata_map: [applicationMetadata]
+  panel_groups: [panelGroup]!
+  end_time: String!
+  start_time: String!
+  project_id: ID!
+  cluster_id: ID!
+  refresh_rate: String!
+}
+
+input CreateMyHub {
+  HubName: String!
+  RepoURL: String!
+  RepoBranch: String!
+  IsPrivate: Boolean!
+  AuthType: AuthType!
+  Token: String
+  UserName: String
+  Password: String
+  SSHPrivateKey: String
+  SSHPublicKey: String
+}
+
+type dashboardPromResponse {
+  dashboardMetricsResponse: [metricDataForPanelGroup]
+  annotationsResponse: [annotationsPromResponse]
+}
+
+input dataVars {
+  url: String!
+  start: String!
+  end: String!
+  relative_time: Int!
+  refresh_interval: Int!
+}
+
+input DateRange {
+  start_date: String!
+  end_date: String
+}
+
+input deleteDSInput {
+  force_delete: Boolean!
+  ds_id: ID!
+}
+
+input dsDetails {
+  url: String!
+  start: String!
+  end: String!
+}
+
+input DSInput {
+  ds_id: String
+  ds_name: String!
+  ds_type: String!
+  ds_url: String!
+  access_type: String!
+  auth_type: String!
+  basic_auth_username: String
+  basic_auth_password: String
+  scrape_interval: Int!
+  query_timeout: Int!
+  http_method: String!
+  project_id: String
+}
+
+type DSResponse {
+  ds_id: String
+  ds_name: String
+  ds_type: String
+  ds_url: String
+  access_type: String
+  auth_type: String
+  basic_auth_username: String
+  basic_auth_password: String
+  scrape_interval: Int
+  query_timeout: Int
+  http_method: String
+  project_id: ID!
+  health_status: String!
+  created_at: String
+  updated_at: String
+}
+
+input ExperimentInput {
+  ProjectID: String!
+  ChartName: String!
+  ExperimentName: String!
+  HubName: String!
+  FileType: String
+}
+
+type Experiments {
+  Name: String!
+  CSV: String!
+  Desc: String!
+}
+
+input GetWorkflowRunsInput {
+  project_id: ID!
+  workflow_run_ids: [ID]
+  workflow_ids: [ID]
+  pagination: Pagination
+  sort: WorkflowRunSortInput
+  filter: WorkflowRunFilterInput
+}
+
+type GetWorkflowsOutput {
+  total_no_of_workflow_runs: Int!
+  workflow_runs: [WorkflowRun]!
+}
+
+input GitConfig {
+  ProjectID: String!
+  Branch: String!
+  RepoURL: String!
+  AuthType: AuthType!
+  Token: String
+  UserName: String
+  Password: String
+  SSHPrivateKey: String
+}
+
+type GitConfigResponse {
+  Enabled: Boolean!
+  ProjectID: String!
+  Branch: String
+  RepoURL: String
+  AuthType: AuthType
+  Token: String
+  UserName: String
+  Password: String
+  SSHPrivateKey: String
+}
+
+type HeatmapData {
+  bins: [WorkflowRunsData]!
+}
+
+type imageRegistry {
+  is_default: Boolean
+  image_registry_name: String!
+  image_repo_name: String!
+  image_registry_type: String!
+  secret_name: String
+  secret_namespace: String
+  enable_registry: Boolean
+}
+
+input imageRegistryInput {
+  is_default: Boolean!
+  image_registry_name: String!
+  image_repo_name: String!
+  image_registry_type: String!
+  secret_name: String
+  secret_namespace: String
+  enable_registry: Boolean
+}
+
+type ImageRegistryResponse {
+  is_default: Boolean!
+  image_registry_info: imageRegistry
+  image_registry_id: String!
+  project_id: String!
+  updated_at: String
+  created_at: String
+  is_removed: Boolean
+}
+
+enum Invitation {
+  Accepted
+  Pending
+}
+
+input KubeGVRRequest {
+  group: String!
+  version: String!
+  resource: String!
+}
+
+input KubeObjectData {
+  request_id: ID!
+  cluster_id: ClusterIdentity!
+  kube_obj: String!
+}
+
+input KubeObjectRequest {
+  cluster_id: ID!
+  object_type: String!
+  kube_obj_request: KubeGVRRequest!
+}
+
+type KubeObjectResponse {
+  cluster_id: ID!
+  kube_obj: String!
+}
+
+type labelValue {
+  label: String!
+  values: [option]
+}
+
+type Link {
+  Name: String!
+  Url: String!
+}
+
+type listDashboardResponse {
+  ds_id: String!
+  db_id: String!
+  db_name: String!
+  db_type_id: String!
+  db_type_name: String!
+  db_information: String
+  chaos_event_query_template: String!
+  chaos_verdict_query_template: String!
+  application_metadata_map: [applicationMetadataResponse]
+  cluster_name: String
+  ds_name: String
+  ds_type: String
+  ds_url: String
+  ds_health_status: String
+  panel_groups: [panelGroupResponse]!
+  end_time: String!
+  start_time: String!
+  refresh_rate: String!
+  project_id: ID!
+  cluster_id: ID!
+  created_at: String
+  updated_at: String
+  viewed_at: String
+}
+
+input ListWorkflowsInput {
+  project_id: ID!
+  workflow_ids: [ID]
+  pagination: Pagination
+  sort: WorkflowSortInput
+  filter: WorkflowFilterInput
+}
+
+type ListWorkflowsOutput {
+  total_no_of_workflows: Int!
+  workflows: [Workflow]!
+}
+
+type Maintainer {
+  Name: String!
+  Email: String!
+}
+
+type ManifestTemplate {
+  template_id: ID!
+  manifest: String!
+  template_name: String!
+  template_description: String!
+  project_id: String!
+  project_name: String!
+  created_at: String!
+  is_removed: Boolean!
+  isCustomWorkflow: Boolean!
+}
+
+enum MemberRole {
+  Owner
+  Editor
+  Viewer
+}
+
+type MemberStat {
+  Owner: Owner!
+  Total: Int!
+}
+
+type Metadata {
+  Name: String!
+  Version: String!
+  Annotations: Annotation!
+}
+
+type metricDataForPanel {
+  panelID: String!
+  PanelMetricsResponse: [metricsPromResponse]
+}
+
+type metricDataForPanelGroup {
+  panelGroupID: String!
+  panelGroupMetricsResponse: [metricDataForPanel]
+}
+
+type metricsPromResponse {
+  queryid: String!
+  legends: [String]
+  tsvs: [[metricsTimeStampValue]]
+}
+
+type metricsTimeStampValue {
+  date: Float
+  value: Float
+}
+
+type Mutation {
+  userClusterReg(clusterInput: ClusterInput!): clusterRegResponse!
+  createChaosWorkFlow(input: ChaosWorkFlowInput!): ChaosWorkFlowResponse!
+  reRunChaosWorkFlow(workflowID: String!): String!
+  deleteChaosWorkflow(workflowid: String, workflow_run_id: String): Boolean!
+  terminateChaosWorkflow(workflowid: String, workflow_run_id: String): Boolean!
+  syncWorkflow(workflowid: String!, workflow_run_id: String!): Boolean!
+  clusterConfirm(identity: ClusterIdentity!): ClusterConfirmResponse!
+  newClusterEvent(clusterEvent: ClusterEventInput!): String!
+  chaosWorkflowRun(workflowData: WorkflowRunInput!): String!
+  podLog(log: PodLog!): String!
+  kubeObj(kubeData: KubeObjectData!): String!
+  addMyHub(myhubInput: CreateMyHub!, projectID: String!): MyHub!
+  saveMyHub(myhubInput: CreateMyHub!, projectID: String!): MyHub!
+  syncHub(id: ID!): [MyHubStatus!]!
+  updateChaosWorkflow(input: ChaosWorkFlowInput): ChaosWorkFlowResponse!
+  deleteClusterReg(cluster_id: String!): String!
+  generaterSSHKey: SSHKey!
+  updateMyHub(myhubInput: UpdateMyHub!, projectID: String!): MyHub!
+  deleteMyHub(hub_id: String!): Boolean!
+  gitopsNotifer(clusterInfo: ClusterIdentity!, workflow_id: String!): String!
+  enableGitOps(config: GitConfig!): Boolean!
+  disableGitOps(project_id: String!): Boolean!
+  updateGitOps(config: GitConfig!): Boolean!
+  createDataSource(datasource: DSInput): DSResponse
+  createDashBoard(dashboard: createDBInput): listDashboardResponse!
+  updateDataSource(datasource: DSInput!): DSResponse!
+  updateDashboard(
+    dashboard: updateDBInput!
+    chaosQueryUpdate: Boolean!
+  ): String!
+  updatePanel(panelInput: [panel]): String!
+  deleteDashboard(db_id: String): Boolean!
+  deleteDataSource(input: deleteDSInput!): Boolean!
+  createManifestTemplate(templateInput: TemplateInput): ManifestTemplate!
+  deleteManifestTemplate(template_id: String!): Boolean!
+  createImageRegistry(
+    project_id: String!
+    imageRegistryInfo: imageRegistryInput!
+  ): ImageRegistryResponse!
+  updateImageRegistry(
+    image_registry_id: String!
+    project_id: String!
+    imageRegistryInfo: imageRegistryInput!
+  ): ImageRegistryResponse!
+  deleteImageRegistry(image_registry_id: String!, project_id: String!): String!
+}
+
+type MyHub {
+  id: ID!
+  RepoURL: String!
+  RepoBranch: String!
+  ProjectID: String!
+  HubName: String!
+  IsPrivate: Boolean!
+  AuthType: AuthType!
+  Token: String
+  UserName: String
+  Password: String
+  SSHPrivateKey: String
+  IsRemoved: Boolean!
+  CreatedAt: String!
+  UpdatedAt: String!
+  LastSyncedAt: String!
+}
+
+type MyHubStatus {
+  id: ID!
+  RepoURL: String!
+  RepoBranch: String!
+  IsAvailable: Boolean!
+  TotalExp: String!
+  HubName: String!
+  IsPrivate: Boolean!
+  AuthType: AuthType!
+  Token: String
+  UserName: String
+  Password: String
+  IsRemoved: Boolean!
+  SSHPrivateKey: String
+  SSHPublicKey: String
+  LastSyncedAt: String!
+}
+
+type option {
+  name: String!
+}
+
+type Owner {
+  UserId: ID!
+  Username: String!
+  Name: String!
+}
+
+type PackageInformation {
+  PackageName: String!
+  Experiments: [Experiments!]!
+}
+
+input Pagination {
+  page: Int!
+  limit: Int!
+}
+
+input panel {
+  panel_id: String
+  db_id: String
+  y_axis_left: String
+  y_axis_right: String
+  x_axis_down: String
+  unit: String
+  panel_group_id: String
+  created_at: String
+  prom_queries: [promQuery]
+  panel_options: panelOption
+  panel_name: String!
+}
+
+input panelGroup {
+  panels: [panel]
+  panel_group_name: String!
+}
+
+type panelGroupResponse {
+  panels: [panelResponse]
+  panel_group_name: String!
+  panel_group_id: String
+}
+
+input panelOption {
+  points: Boolean
+  grids: Boolean
+  left_axis: Boolean
+}
+
+type panelOptionResponse {
+  points: Boolean
+  grids: Boolean
+  left_axis: Boolean
+}
+
+type panelResponse {
+  panel_id: String!
+  y_axis_left: String
+  y_axis_right: String
+  x_axis_down: String
+  unit: String
+  prom_queries: [promQueryResponse]
+  panel_options: panelOptionResponse
+  panel_name: String
+  created_at: String
+}
+
+input PodLog {
+  cluster_id: ClusterIdentity!
+  request_id: ID!
+  workflow_run_id: ID!
+  pod_name: String!
+  pod_type: String!
+  log: String!
+}
+
+input PodLogRequest {
+  cluster_id: ID!
+  workflow_run_id: ID!
+  pod_name: String!
+  pod_namespace: String!
+  pod_type: String!
+  exp_pod: String
+  runner_pod: String
+  chaos_namespace: String
+}
+
+type PodLogResponse {
+  workflow_run_id: ID!
+  pod_name: String!
+  pod_type: String!
+  log: String!
+}
+
+type PortalDashboardData {
+  name: String!
+  dashboard_data: String!
+}
+
+type ProjectData {
+  Workflows: WorkflowStat!
+  Agents: AgentStat!
+  ProjectId: String!
+}
+
+input promInput {
+  queries: [promQueryInput]
+  ds_details: dsDetails!
+}
+
+input promQuery {
+  queryid: String!
+  prom_query_name: String
+  legend: String
+  resolution: String
+  minstep: String
+  line: Boolean
+  close_area: Boolean
+}
+
+input promQueryInput {
+  queryid: String!
+  query: String!
+  legend: String
+  resolution: String
+  minstep: Int!
+}
+
+type promQueryResponse {
+  queryid: ID!
+  prom_query_name: String
+  legend: String
+  resolution: String
+  minstep: String
+  line: Boolean
+  close_area: Boolean
+}
+
+type promResponse {
+  metricsResponse: [metricsPromResponse]
+  annotationsResponse: [annotationsPromResponse]
+}
+
+input promSeriesInput {
+  series: String!
+  ds_details: dsDetails!
+}
+
+type promSeriesListResponse {
+  seriesList: [String]
+}
+
+type promSeriesResponse {
+  series: String!
+  labelValues: [labelValue]
+}
+
+type Provider {
+  Name: String!
+}
+
+type Query {
+  getWorkflowRuns(workflowRunsInput: GetWorkflowRunsInput!): GetWorkflowsOutput!
+  getCluster(project_id: String!, cluster_type: String): [Cluster!]!
+  getManifest(
+    projectID: String!
+    clusterID: String!
+    accessKey: String!
+  ): String!
+  getAgentDetails(cluster_id: String!, projectID: String!): Cluster!
+  getHeatmapData(
+    project_id: String!
+    workflow_id: String!
+    year: Int!
+  ): [HeatmapData]!
+  getWorkflowStats(
+    project_id: ID!
+    filter: TimeFrequency!
+    show_workflow_runs: Boolean!
+  ): [WorkflowStats]!
+  getWorkflowRunStats(
+    workflowRunStatsRequest: WorkflowRunStatsRequest!
+  ): WorkflowRunStatsResponse!
+  ListWorkflow(workflowInput: ListWorkflowsInput!): ListWorkflowsOutput!
+  getCharts(HubName: String!, projectID: String!): [Chart!]!
+  getHubExperiment(experimentInput: ExperimentInput!): Chart!
+  getHubStatus(projectID: String!): [MyHubStatus]!
+  getYAMLData(experimentInput: ExperimentInput!): String!
+  GetPredefinedWorkflowList(HubName: String!, projectID: String!): [String!]!
+  GetPredefinedExperimentYAML(experimentInput: ExperimentInput!): String!
+  ListDataSource(project_id: String!): [DSResponse]!
+  GetPromQuery(query: promInput): promResponse!
+  GetPromLabelNamesAndValues(series: promSeriesInput): promSeriesResponse!
+  GetPromSeriesList(ds_details: dsDetails): promSeriesListResponse!
+  ListDashboard(
+    project_id: String!
+    cluster_id: String
+    db_id: String
+  ): [listDashboardResponse]
+  PortalDashboardData(
+    project_id: String!
+    hub_name: String!
+  ): [PortalDashboardData!]!
+  getGitOpsDetails(project_id: String!): GitConfigResponse!
+  ListManifestTemplate(project_id: String!): [ManifestTemplate]!
+  GetTemplateManifestByID(template_id: String!): ManifestTemplate!
+  ListImageRegistry(project_id: String!): [ImageRegistryResponse!]
+  GetImageRegistry(
+    image_registry_id: String!
+    project_id: String!
+  ): ImageRegistryResponse!
+  UsageQuery(query: UsageQuery!): UsageData!
+}
+
+input queryMapForPanel {
+  panelID: String!
+  queryIDs: [String!]!
+}
+
+input queryMapForPanelGroup {
+  panelGroupID: String!
+  panelQueryMap: [queryMapForPanel!]!
+}
+
+input resource {
+  kind: String!
+  names: [String]
+}
+
+type resourceResponse {
+  kind: String!
+  names: [String]
+}
+
+type Spec {
+  DisplayName: String!
+  CategoryDescription: String!
+  Keywords: [String!]!
+  Maturity: String!
+  Maintainers: [Maintainer!]!
+  MinKubeVersion: String!
+  Provider: String!
+  Links: [Link!]!
+  Experiments: [String!]!
+  ChaosExpCRDLink: String!
+  Platforms: [String!]!
+  ChaosType: String
+}
+
+type SSHKey {
+  publicKey: String!
+  privateKey: String!
+}
+
+type subData {
+  date: Float
+  value: String!
+  subDataName: String!
+}
+
+type Subscription {
+  clusterEventListener(project_id: String!): ClusterEvent!
+  workflowEventListener(project_id: String!): WorkflowRun!
+  getPodLog(podDetails: PodLogRequest!): PodLogResponse!
+  clusterConnect(clusterInfo: ClusterIdentity!): ClusterAction!
+  getKubeObject(kubeObjectRequest: KubeObjectRequest!): KubeObjectResponse!
+  viewDashboard(
+    dashboardID: String
+    promQueries: [promQueryInput!]!
+    dashboardQueryMap: [queryMapForPanelGroup!]!
+    dataVariables: dataVars!
+  ): dashboardPromResponse!
+}
+
+input TemplateInput {
+  manifest: String!
+  template_name: String!
+  template_description: String!
+  project_id: String!
+  isCustomWorkflow: Boolean!
+}
+
+enum TimeFrequency {
+  Monthly
+  Daily
+  Hourly
+}
+
+input Toleration {
+  tolerationSeconds: Int
+  key: String
+  operator: String
+  effect: String
+  value: String
+}
+
+type TotalCount {
+  Projects: Int!
+  Users: Int!
+  Agents: AgentStat!
+  Workflows: WorkflowStat!
+}
+
+input updateDBInput {
+  db_id: String!
+  ds_id: String
+  db_name: String
+  db_type_name: String
+  db_type_id: String
+  db_information: String
+  chaos_event_query_template: String
+  chaos_verdict_query_template: String
+  application_metadata_map: [applicationMetadata]
+  panel_groups: [updatePanelGroupInput]
+  end_time: String
+  start_time: String
+  cluster_id: ID
+  refresh_rate: String
+}
+
+input UpdateMyHub {
+  id: String!
+  HubName: String!
+  RepoURL: String!
+  RepoBranch: String!
+  IsPrivate: Boolean!
+  AuthType: AuthType!
+  Token: String
+  UserName: String
+  Password: String
+  SSHPrivateKey: String
+  SSHPublicKey: String
+}
+
+input updatePanelGroupInput {
+  panel_group_name: String!
+  panel_group_id: String!
+  panels: [panel]
+}
+
+type UsageData {
+  Projects: [ProjectData]!
+  TotalEntries: Int!
+  TotalCount: TotalCount!
+}
+
+input UsageQuery {
+  Pagination: Pagination
+  DateRange: DateRange!
+  Sort: UsageSortInput
+  SearchProject: String
+}
+
+enum UsageSort {
+  Project
+  Owner
+  Agents
+  Schedules
+  WorkflowRuns
+  ExperimentRuns
+  TeamMembers
+}
+
+input UsageSortInput {
+  Field: UsageSort!
+  Descending: Boolean!
+}
+
+type weightages {
+  experiment_name: String!
+  weightage: Int!
+}
+
+input WeightagesInput {
+  experiment_name: String!
+  weightage: Int!
+}
+
+type Workflow {
+  workflow_id: String!
+  workflow_manifest: String!
+  cronSyntax: String!
+  cluster_name: String!
+  workflow_name: String!
+  workflow_description: String!
+  weightages: [weightages!]!
+  isCustomWorkflow: Boolean!
+  updated_at: String!
+  created_at: String!
+  project_id: ID!
+  cluster_id: ID!
+  cluster_type: String!
+  isRemoved: Boolean!
+  last_updated_by: String
+}
+
+input WorkflowFilterInput {
+  workflow_name: String
+  cluster_name: String
+}
+
+type WorkflowRun {
+  workflow_run_id: ID!
+  workflow_id: ID!
+  cluster_name: String!
+  weightages: [weightages!]!
+  last_updated: String!
+  project_id: ID!
+  cluster_id: ID!
+  workflow_name: String!
+  cluster_type: String
+  phase: String!
+  resiliency_score: Float
+  experiments_passed: Int
+  experiments_failed: Int
+  experiments_awaited: Int
+  experiments_stopped: Int
+  experiments_na: Int
+  total_experiments: Int
+  execution_data: String!
+  isRemoved: Boolean
+  executed_by: String!
+}
+
+type WorkflowRunDetails {
+  no_of_runs: Int!
+  date_stamp: Float!
+}
+
+input WorkflowRunFilterInput {
+  workflow_name: String
+  cluster_name: String
+  workflow_status: WorkflowRunStatus
+  date_range: DateRange
+}
+
+input WorkflowRunInput {
+  workflow_id: ID!
+  workflow_run_id: ID!
+  workflow_name: String!
+  executed_by: String!
+  execution_data: String!
+  cluster_id: ClusterIdentity!
+  completed: Boolean!
+  isRemoved: Boolean
+}
+
+type WorkflowRunsData {
+  value: Float
+  workflowRunDetail: WorkflowRunDetails
+}
+
+input WorkflowRunSortInput {
+  field: WorkflowSortingField!
+  descending: Boolean
+}
+
+input WorkflowRunStatsRequest {
+  project_id: ID!
+  workflow_ids: [ID]
+}
+
+type WorkflowRunStatsResponse {
+  total_workflow_runs: Int!
+  succeeded_workflow_runs: Int!
+  failed_workflow_runs: Int!
+  running_workflow_runs: Int!
+  average_resiliency_score: Float!
+  total_experiments: Int!
+  experiments_passed: Int!
+  experiments_failed: Int!
+  experiments_awaited: Int!
+  experiments_stopped: Int!
+  experiments_na: Int!
+  passed_percentage: Float!
+  failed_percentage: Float!
+  workflow_run_succeeded_percentage: Float!
+  workflow_run_failed_percentage: Float!
+}
+
+enum WorkflowRunStatus {
+  All
+  Failed
+  Running
+  Succeeded
+  Terminated
+}
+
+enum WorkflowSortingField {
+  Name
+  Time
+}
+
+input WorkflowSortInput {
+  field: WorkflowSortingField!
+  descending: Boolean
+}
+
+type WorkflowStat {
+  Schedules: Int!
+  Runs: Int!
+  ExpRuns: Int!
+}
+
+type WorkflowStats {
+  date: Float!
+  value: Int!
+}
+
