@@ -1,0 +1,1538 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Litmus Auth",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:3000"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "noauthAuth": {
+        "type": "http",
+        "scheme": "noauth"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "username": "admin",
+                  "password": "litmus"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "noauthAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 27 Dec 2021 10:03:30 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "308"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "access_token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDA2ODU4MTAsInJvbGUiOiJhZG1pbiIsInVpZCI6ImNhOGVjNjI5LWJiYTgtNDZlNC05YzYyLTE0OTEyOWYwYzU2OSIsInVzZXJuYW1lIjoiYWRtaW4ifQ.trbxqftxAZ3ETzBripz5cc9pf7yTIZi0SIPJebmJidAV_hUFizSn6r1p4TCQG-pH0sy95o5IYR02rVCgtA_GNg",
+                  "expires_in": 86400,
+                  "type": "Bearer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Users",
+        "description": "Fetches details of all users",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 27 Dec 2021 10:05:07 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "108"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "Success1",
+                    "value": [
+                      {
+                        "_id": "ca8ec629-bba8-46e4-9c62-149129f0c569",
+                        "username": "admin",
+                        "role": "admin",
+                        "created_at": "1640598715"
+                      }
+                    ]
+                  },
+                  "example-1": {
+                    "summary": "Success2",
+                    "value": [
+                      {
+                        "_id": "ca8ec629-bba8-46e4-9c62-149129f0c569",
+                        "username": "admin",
+                        "email": "user1@gmail.com",
+                        "name": "user1",
+                        "role": "admin",
+                        "created_at": "1640598715"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getUser/ca8ec629-bba8-46e4-9c62-149129f0c569": {
+      "get": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Get user",
+        "description": "Fetches details of specific user based on uid",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 27 Dec 2021 10:07:55 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "106"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "Success1",
+                    "value": {
+                      "_id": "ca8ec629-bba8-46e4-9c62-149129f0c569",
+                      "username": "admin",
+                      "role": "admin",
+                      "created_at": "1640598715"
+                    }
+                  },
+                  "example-1": {
+                    "summary": "Success2",
+                    "value": {
+                      "_id": "ca8ec629-bba8-46e4-9c62-149129f0c569",
+                      "username": "admin",
+                      "email": "user1@gmail.com",
+                      "name": "user1",
+                      "role": "admin",
+                      "created_at": "1640598715"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/update/details": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Update details",
+        "description": "Updates user info like name and email and also password\n",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "user1",
+                  "email": "user1@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 27 Dec 2021 10:10:39 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "47"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "User details updated successfully"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/update/password": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Update password",
+        "description": "Updates user's password\n",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "old_password": "litmus123",
+                  "new_password": "litmus"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 27 Dec 2021 10:24:14 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "37"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "password has been reset"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 27 Dec 2021 10:23:16 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "73"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "error": "invalid_credentials",
+                  "error_description": "Invalid Credentials"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reset/password": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Reset password",
+        "description": "[For Admins Only] To reset password of users",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "username": "admin",
+                  "new_password": "litmus"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 27 Dec 2021 10:30:12 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "50"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "password has been reset successfully"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/create": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Create user",
+        "description": "[Only for admins] Creates an user\n",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "username": "sarthak",
+                  "name": "sarthak jain",
+                  "email": "sarthak@litmus.com",
+                  "password": "litmus",
+                  "role": "user"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 27 Dec 2021 10:36:16 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "158"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "_id": "d02ad3a3-07aa-49fa-a891-fa43da01ac1a",
+                  "username": "sarthak",
+                  "email": "sarthak@litmus.com",
+                  "name": "sarthak jain",
+                  "role": "user",
+                  "created_at": "1640601376"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/update/state": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Update state",
+        "description": "[Only for admin] Updates user state by populating deactivate_at",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "username": "sarthak",
+                  "is_deactivate": false
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 27 Dec 2021 10:39:03 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "47"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "Deactivate",
+                    "value": {
+                      "message": "user's state updated successfully"
+                    }
+                  },
+                  "example-1": {
+                    "summary": "Reactivate",
+                    "value": {
+                      "message": "user's state updated successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 27 Dec 2021 10:40:11 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "59"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "error": "user already deactivated",
+                  "error_description": ""
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/create_project": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Create project",
+        "description": "Creates project for an user\n",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "project_name": "admin's project 1"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 28 Dec 2021 07:34:34 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "392"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "ID": "384f6666-3b7d-4381-b5b5-bfc4c3dedbc8",
+                    "UID": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                    "Name": "admin's project 1",
+                    "Members": [
+                      {
+                        "UserID": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                        "UserName": "admin",
+                        "Name": "",
+                        "Role": "Owner",
+                        "Email": "",
+                        "Invitation": "Accepted",
+                        "JoinedAt": "1640676874",
+                        "DeactivatedAt": ""
+                      }
+                    ],
+                    "State": "active",
+                    "CreatedAt": "1640676874",
+                    "UpdatedAt": "1640676874",
+                    "RemovedAt": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_project/384f6666-3b7d-4381-b5b5-bfc4c3dedbc8": {
+      "get": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Get project",
+        "description": "Lists project details for a given project ID\n",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 30 Dec 2021 19:59:05 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "392"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "ID": "384f6666-3b7d-4381-b5b5-bfc4c3dedbc8",
+                    "UID": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                    "Name": "admin's project 1",
+                    "Members": [
+                      {
+                        "UserID": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                        "UserName": "admin",
+                        "Name": "",
+                        "Role": "Owner",
+                        "Email": "",
+                        "Invitation": "Accepted",
+                        "JoinedAt": "1640676874",
+                        "DeactivatedAt": ""
+                      }
+                    ],
+                    "State": "active",
+                    "CreatedAt": "1640676874",
+                    "UpdatedAt": "1640676874",
+                    "RemovedAt": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_user_with_project/admin": {
+      "get": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Get user with project",
+        "description": "Lists project details for a given username",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 30 Dec 2021 19:57:24 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "898"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "ID": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                    "Username": "admin",
+                    "CreatedAt": "1640672341",
+                    "Email": "",
+                    "Name": "",
+                    "Projects": [
+                      {
+                        "ID": "6f2de34c-8ba6-4f0a-a6fb-45c1a526b448",
+                        "UID": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                        "Name": "admin's project",
+                        "Members": [
+                          {
+                            "UserID": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                            "UserName": "admin",
+                            "Name": "",
+                            "Role": "Owner",
+                            "Email": "",
+                            "Invitation": "Accepted",
+                            "JoinedAt": "1640674829",
+                            "DeactivatedAt": ""
+                          }
+                        ],
+                        "State": "active",
+                        "CreatedAt": "1640674829",
+                        "UpdatedAt": "1640674829",
+                        "RemovedAt": ""
+                      },
+                      {
+                        "ID": "384f6666-3b7d-4381-b5b5-bfc4c3dedbc8",
+                        "UID": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                        "Name": "admin's project 1",
+                        "Members": [
+                          {
+                            "UserID": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                            "UserName": "admin",
+                            "Name": "",
+                            "Role": "Owner",
+                            "Email": "",
+                            "Invitation": "Accepted",
+                            "JoinedAt": "1640676874",
+                            "DeactivatedAt": ""
+                          }
+                        ],
+                        "State": "active",
+                        "CreatedAt": "1640676874",
+                        "UpdatedAt": "1640676874",
+                        "RemovedAt": ""
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list_projects": {
+      "get": {
+        "tags": [
+          "default"
+        ],
+        "summary": "List project",
+        "description": "Lists project for logged in user\n",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 30 Dec 2021 20:03:09 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "776"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": [
+                    {
+                      "ID": "6f2de34c-8ba6-4f0a-a6fb-45c1a526b448",
+                      "UID": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                      "Name": "admin's project",
+                      "Members": [
+                        {
+                          "UserID": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                          "UserName": "admin",
+                          "Name": "",
+                          "Role": "Owner",
+                          "Email": "",
+                          "Invitation": "Accepted",
+                          "JoinedAt": "1640674829",
+                          "DeactivatedAt": ""
+                        }
+                      ],
+                      "State": "active",
+                      "CreatedAt": "1640674829",
+                      "UpdatedAt": "1640674829",
+                      "RemovedAt": ""
+                    },
+                    {
+                      "ID": "384f6666-3b7d-4381-b5b5-bfc4c3dedbc8",
+                      "UID": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                      "Name": "admin's project 1",
+                      "Members": [
+                        {
+                          "UserID": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                          "UserName": "admin",
+                          "Name": "",
+                          "Role": "Owner",
+                          "Email": "",
+                          "Invitation": "Accepted",
+                          "JoinedAt": "1640676874",
+                          "DeactivatedAt": ""
+                        }
+                      ],
+                      "State": "active",
+                      "CreatedAt": "1640676874",
+                      "UpdatedAt": "1640676874",
+                      "RemovedAt": ""
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get_projects_stats": {
+      "get": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Get project stats",
+        "description": "[Admin] Gets details of all the project\n",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 30 Dec 2021 20:01:43 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "370"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": [
+                    {
+                      "Name": "admin's project",
+                      "ProjectId": "6f2de34c-8ba6-4f0a-a6fb-45c1a526b448",
+                      "Members": {
+                        "Owner": [
+                          {
+                            "UserId": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                            "Username": "admin"
+                          }
+                        ],
+                        "Total": 1
+                      }
+                    },
+                    {
+                      "Name": "admin's project 1",
+                      "ProjectId": "384f6666-3b7d-4381-b5b5-bfc4c3dedbc8",
+                      "Members": {
+                        "Owner": [
+                          {
+                            "UserId": "c0b43e3f-8e7f-475e-9aa3-c2393a0f408b",
+                            "Username": "admin"
+                          }
+                        ],
+                        "Total": 1
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/update_projectname": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Update project name",
+        "description": "Updates project name\n",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "project_id": "384f6666-3b7d-4381-b5b5-bfc4c3dedbc8",
+                  "project_name": "admin's project 2"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 30 Dec 2021 20:22:05 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "24"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "Successful"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 30 Dec 2021 20:21:12 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "63"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "project with name: admin's project already exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/send_invitation": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Send invitation",
+        "description": "Sends project invite to a user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "project_id": "6f2de34c-8ba6-4f0a-a6fb-45c1a526b448",
+                  "user_id": "3bdc0bd9-fc46-433b-ac21-05d555566c46",
+                  "role": "Viewer"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 30 Dec 2021 20:10:06 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "182"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": {
+                    "UserID": "3bdc0bd9-fc46-433b-ac21-05d555566c46",
+                    "UserName": "sarthak",
+                    "Name": "",
+                    "Role": "Editor",
+                    "Email": "",
+                    "Invitation": "Pending",
+                    "JoinedAt": "1640895006",
+                    "DeactivatedAt": ""
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 30 Dec 2021 20:09:11 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "55"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "Error1",
+                    "value": {
+                      "error": "user does not exists",
+                      "error_description": ""
+                    }
+                  },
+                  "example-1": {
+                    "summary": "Invalid role",
+                    "value": {
+                      "error": "invalid_request",
+                      "error_description": "The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 30 Dec 2021 20:08:15 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "117"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "error": "unauthorized",
+                  "error_description": "The user does not have requested authorization to access this resource"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accept_invitation": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Accept invitation",
+        "description": "Accepts project invite\n",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "project_id": "6d624696-b77e-453f-9235-8b86329a8925",
+                  "user_id": "c428a21a-2fed-4e82-8772-2eae29969ebc"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 30 Dec 2021 20:26:57 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "24"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "Successful"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/decline_invitation": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Decline invitation",
+        "description": "Declines an pending invitation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "project_id": "384f6666-3b7d-4381-b5b5-bfc4c3dedbc8",
+                  "user_id": "3bdc0bd9-fc46-433b-ac21-05d555566c46"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 30 Dec 2021 20:24:00 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "24"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "Successful"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/remove_invitation": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Remove invitation",
+        "description": "Cancels invitation or removes member from project",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "project_id": "384f6666-3b7d-4381-b5b5-bfc4c3dedbc8",
+                  "user_id": "3bdc0bd9-fc46-433b-ac21-05d555566c46"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 30 Dec 2021 20:16:43 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "24"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "Successful"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/leave_project": {
+      "post": {
+        "tags": [
+          "default"
+        ],
+        "summary": "Leave project",
+        "description": "Removes user from project\n",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "project_id": "6f2de34c-8ba6-4f0a-a6fb-45c1a526b448",
+                  "user_id": "3bdc0bd9-fc46-433b-ac21-05d555566c46"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 30 Dec 2021 20:31:06 GMT"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "24"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "Successful"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
