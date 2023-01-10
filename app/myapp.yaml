@@ -44,4 +44,4 @@ metadata:
   name: myapp
 type: Opaque
 data:
-  test: "hello"
+  test: YWRtaW4=
