@@ -41,7 +41,6 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  labels:
   name: myapp
 type: Opaque
 data:
