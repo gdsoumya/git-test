@@ -50,6 +50,10 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: web
+  labels:
+    test: a1234
+  annotations:
+    test: a3434
 spec:
   serviceName: "nginx"
   replicas: 2
