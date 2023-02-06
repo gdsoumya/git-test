@@ -64,6 +64,9 @@ spec:
     metadata:
       labels:
         app: nginx
+        test: a1234
+      annotations:
+        test: a3434
     spec:
       containers:
       - name: nginx
