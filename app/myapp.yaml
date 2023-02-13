@@ -50,6 +50,8 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: nginx-pvc
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false
 spec:
   accessModes:
     - ReadWriteOnce
