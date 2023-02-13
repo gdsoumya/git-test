@@ -66,8 +66,7 @@ metadata:
   annotations:
     test: a3434
 spec:
-  serviceName: "nginx"
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: nginx
