@@ -3,6 +3,7 @@ kind: Workflow
 metadata:
   creationTimestamp: null
   labels:
+    test: "rere"
     cluster_id: d270c045-e921-4f94-a00d-33e7fb80ddc1
     subject: custom-scenario-22_litmus
     workflow_id: b183d24b-c0af-43dd-bc76-fb3a7ff8d837
