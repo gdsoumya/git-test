@@ -1,0 +1,344 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  creationTimestamp: null
+  labels:
+    cluster_id: d270c045-e921-4f94-a00d-33e7fb80ddc1
+    subject: custom-scenario-2_litmus
+    workflow_id: 016d40bc-3f2e-4822-b0b6-c2ce6608cfe4
+    workflows.argoproj.io/controller-instanceid: d270c045-e921-4f94-a00d-33e7fb80ddc1
+  name: custom-scenario-2
+  namespace: litmus
+spec:
+  arguments:
+    parameters:
+    - name: adminModeNamespace
+      value: litmus
+  entrypoint: custom-chaos
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+  serviceAccountName: argo-chaos
+  templates:
+  - inputs: {}
+    metadata: {}
+    name: custom-chaos
+    outputs: {}
+    steps:
+    - - arguments: {}
+        name: install-chaos-experiments
+        template: install-chaos-experiments
+    - - arguments: {}
+        name: pod-dns-error
+        template: pod-dns-error
+    - - arguments: {}
+        name: recover
+        template: sleep
+    - - arguments: {}
+        name: pod-dns-spoof
+        template: pod-dns-spoof
+  - container:
+      args:
+      - kubectl apply -f /tmp/pod-dns-error.yaml -n {{workflow.parameters.adminModeNamespace}}
+        && kubectl apply -f /tmp/pod-dns-spoof.yaml -n {{workflow.parameters.adminModeNamespace}}
+        &&  sleep 30
+      command:
+      - sh
+      - -c
+      image: litmuschaos/k8s:latest
+      name: ""
+      resources: {}
+    inputs:
+      artifacts:
+      - name: pod-dns-error
+        path: /tmp/pod-dns-error.yaml
+        raw:
+          data: |
+            apiVersion: litmuschaos.io/v1alpha1
+            description:
+              message: |
+                Pod DNS Error injects dns failure/error in target pod containers
+            kind: ChaosExperiment
+            metadata:
+              name: pod-dns-error
+              labels:
+                name: pod-dns-error
+                app.kubernetes.io/part-of: litmus
+                app.kubernetes.io/component: chaosexperiment
+                app.kubernetes.io/version: ci
+            spec:
+              definition:
+                scope: Namespaced
+                permissions:
+                  - apiGroups:
+                      - ""
+                      - batch
+                      - apps
+                      - apps.openshift.io
+                      - argoproj.io
+                      - litmuschaos.io
+                    resources:
+                      - jobs
+                      - pods
+                      - pods/log
+                      - replicationcontrollers
+                      - deployments
+                      - statefulsets
+                      - daemonsets
+                      - replicasets
+                      - deploymentconfigs
+                      - rollouts
+                      - pods/exec
+                      - events
+                      - chaosengines
+                      - chaosexperiments
+                      - chaosresults
+                    verbs:
+                      - create
+                      - list
+                      - get
+                      - patch
+                      - update
+                      - delete
+                      - deletecollection
+                image: gdsoumya/go-runner:ci
+                args:
+                  - -c
+                  - ./experiments -name pod-dns-error
+                command:
+                  - /bin/bash
+                env:
+                  - name: TARGET_CONTAINER
+                    value: ""
+                  - name: LIB_IMAGE
+                    value: gdsoumya/go-runner:ci
+                  - name: TOTAL_CHAOS_DURATION
+                    value: "60"
+                  - name: RAMP_TIME
+                    value: ""
+                  - name: PODS_AFFECTED_PERC
+                    value: ""
+                  - name: TARGET_PODS
+                    value: ""
+                  - name: CONTAINER_RUNTIME
+                    value: docker
+                  - name: SOCKET_PATH
+                    value: /var/run/docker.sock
+                  - name: SEQUENCE
+                    value: parallel
+                  - name: TARGET_HOSTNAMES
+                    value: ""
+                  - name: MATCH_SCHEME
+                    value: exact
+                labels:
+                  experiment: pod-dns-error
+                  app.kubernetes.io/part-of: litmus
+                  app.kubernetes.io/component: experiment-job
+                  app.kubernetes.io/version: ci
+      - name: pod-dns-spoof
+        path: /tmp/pod-dns-spoof.yaml
+        raw:
+          data: |
+            apiVersion: litmuschaos.io/v1alpha1
+            description:
+              message: >
+                Pod DNS Spoof can spoof particular dns requests in target pod container to
+                desired target hostnames
+            kind: ChaosExperiment
+            metadata:
+              name: pod-dns-spoof
+              labels:
+                name: pod-dns-spoof
+                app.kubernetes.io/part-of: litmus
+                app.kubernetes.io/component: chaosexperiment
+                app.kubernetes.io/version: ci
+            spec:
+              definition:
+                scope: Namespaced
+                permissions:
+                  - apiGroups:
+                      - ""
+                      - batch
+                      - apps
+                      - apps.openshift.io
+                      - argoproj.io
+                      - litmuschaos.io
+                    resources:
+                      - jobs
+                      - pods
+                      - pods/log
+                      - replicationcontrollers
+                      - deployments
+                      - statefulsets
+                      - daemonsets
+                      - replicasets
+                      - deploymentconfigs
+                      - rollouts
+                      - pods/exec
+                      - events
+                      - chaosengines
+                      - chaosexperiments
+                      - chaosresults
+                    verbs:
+                      - create
+                      - list
+                      - get
+                      - patch
+                      - update
+                      - delete
+                      - deletecollection
+                image: gdsoumya/go-runner:ci
+                args:
+                  - -c
+                  - ./experiments -name pod-dns-spoof
+                command:
+                  - /bin/bash
+                env:
+                  - name: TARGET_CONTAINER
+                    value: ""
+                  - name: LIB_IMAGE
+                    value: gdsoumya/go-runner:ci
+                  - name: TOTAL_CHAOS_DURATION
+                    value: "60"
+                  - name: RAMP_TIME
+                    value: ""
+                  - name: PODS_AFFECTED_PERC
+                    value: ""
+                  - name: TARGET_PODS
+                    value: ""
+                  - name: CONTAINER_RUNTIME
+                    value: docker
+                  - name: SOCKET_PATH
+                    value: /var/run/docker.sock
+                  - name: SEQUENCE
+                    value: parallel
+                  - name: SPOOF_MAP
+                    value: ""
+                labels:
+                  experiment: pod-dns-spoof
+                  app.kubernetes.io/part-of: litmus
+                  app.kubernetes.io/component: experiment-job
+                  app.kubernetes.io/version: ci
+    metadata: {}
+    name: install-chaos-experiments
+    outputs: {}
+  - container:
+      args:
+      - -file=/tmp/chaosengine-pod-dns-error.yaml
+      - -saveName=/tmp/engine-name
+      image: litmuschaos/litmus-checker:latest
+      name: ""
+      resources: {}
+    inputs:
+      artifacts:
+      - name: pod-dns-error
+        path: /tmp/chaosengine-pod-dns-error.yaml
+        raw:
+          data: |
+            apiVersion: litmuschaos.io/v1alpha1
+            kind: ChaosEngine
+            metadata:
+              generateName: pod-dns-error
+              namespace: "{{workflow.parameters.adminModeNamespace}}"
+              labels:
+                instance_id: b383d93d-a5d2-4383-a626-424e1b2aad17
+                context: litmus_pod_dns_error
+                workflow_name: custom-workflow-1634753327
+            spec:
+              appinfo:
+                appns: demospace
+                applabel: app=podtato-main
+                appkind: deployment
+              engineState: active
+              annotationCheck: "false"
+              auxiliaryAppInfo: ""
+              chaosServiceAccount: litmus-admin
+              jobCleanUpPolicy: retain
+              experiments:
+                - name: pod-dns-error
+                  spec:
+                    components:
+                      env:
+                        - name: TARGET_HOSTNAMES
+                          value: '["arm"]'
+                        - name: MATCH_SCHEME
+                          value: substring
+                        - name: TOTAL_CHAOS_DURATION
+                          value: "60"
+                        - name: CONTAINER_RUNTIME
+                          value: docker
+                        - name: SOCKET_PATH
+                          value: /var/run/docker.sock
+                    probe: []
+    metadata:
+      labels:
+        weight: "10"
+    name: pod-dns-error
+    outputs: {}
+  - container:
+      args:
+      - -file=/tmp/chaosengine-pod-dns-spoof.yaml
+      - -saveName=/tmp/engine-name
+      image: litmuschaos/litmus-checker:latest
+      name: ""
+      resources: {}
+    inputs:
+      artifacts:
+      - name: pod-dns-spoof
+        path: /tmp/chaosengine-pod-dns-spoof.yaml
+        raw:
+          data: |
+            apiVersion: litmuschaos.io/v1alpha1
+            kind: ChaosEngine
+            metadata:
+              generateName: pod-dns-spoof
+              namespace: "{{workflow.parameters.adminModeNamespace}}"
+              labels:
+                instance_id: 80a78a9c-630e-4bd0-a7c0-321171c363d1
+                context: litmus_pod_dns_spoof
+                workflow_name: custom-workflow-1634753327
+            spec:
+              appinfo:
+                appns: demospace
+                applabel: app=podtato-main
+                appkind: deployment
+              engineState: active
+              annotationCheck: "false"
+              auxiliaryAppInfo: ""
+              chaosServiceAccount: litmus-admin
+              jobCleanUpPolicy: retain
+              experiments:
+                - name: pod-dns-spoof
+                  spec:
+                    components:
+                      env:
+                        - name: SPOOF_MAP
+                          value: '{"podtato-left-arm.demospace.svc.cluster.local":"podtato-left-arm.spoof.svc.cluster.local"}'
+                        - name: TOTAL_CHAOS_DURATION
+                          value: "60"
+                        - name: CONTAINER_RUNTIME
+                          value: docker
+                        - name: SOCKET_PATH
+                          value: /var/run/docker.sock
+                    probe: []
+    metadata:
+      labels:
+        weight: "10"
+    name: pod-dns-spoof
+    outputs: {}
+  - container:
+      args:
+      - sleep 30
+      command:
+      - sh
+      - -c
+      image: litmuschaos/k8s:latest
+      name: ""
+      resources: {}
+    inputs: {}
+    metadata: {}
+    name: sleep
+    outputs: {}
+status:
+  finishedAt: null
+  startedAt: null
