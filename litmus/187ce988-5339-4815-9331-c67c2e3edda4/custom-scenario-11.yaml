@@ -3,6 +3,7 @@ kind: Workflow
 metadata:
   creationTimestamp: null
   labels:
+    test: "4343"
     cluster_id: d270c045-e921-4f94-a00d-33e7fb80ddc1
     subject: custom-scenario-11_litmus
     workflow_id: efc2d65c-d62a-4a0e-ad65-1ad36c394eb5
