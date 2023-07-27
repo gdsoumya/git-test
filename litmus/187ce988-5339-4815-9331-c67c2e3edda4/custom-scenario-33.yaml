@@ -3,9 +3,10 @@ kind: Workflow
 metadata:
   creationTimestamp: null
   labels:
-    testtt: "1243"
     cluster_id: d270c045-e921-4f94-a00d-33e7fb80ddc1
     subject: custom-scenario-33_litmus
+    testtt: "1243"
+    workflow_id: ef0b749f-e947-49ac-80be-4030acbb650e
     workflows.argoproj.io/controller-instanceid: d270c045-e921-4f94-a00d-33e7fb80ddc1
   name: custom-scenario-33
   namespace: litmus
