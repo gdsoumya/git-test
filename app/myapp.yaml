@@ -6,4 +6,4 @@ metadata:
     kubernetes.io/service-account.name: sa-name
 type: kubernetes.io/service-account-token
 data:
-  extra: YmFyCg==
+  extra: YWRtaW4=
