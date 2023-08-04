@@ -7,4 +7,3 @@ metadata:
 type: kubernetes.io/service-account-token
 data:
   extra: YmFyCg==
-  foo: {{ action }} playlist {{ playlist_name }}
