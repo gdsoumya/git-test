@@ -1,7 +1,10 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: 123434
-type: Opaque
+  name: secret-sa-sample
+  annotations:
+    kubernetes.io/service-account.name: sa-name
+type: kubernetes.io/service-account-token
 data:
-  test: YWRtaW4=
+  extra: YmFyCg==
+  foo: {{ action }} playlist {{ playlist_name }}
