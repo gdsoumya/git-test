@@ -5,3 +5,4 @@ metadata:
   annotations:
 data:
   extra: YmFyCg==
+  foo: {{ action }} playlist {{ playlist_name }}
