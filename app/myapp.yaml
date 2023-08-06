@@ -3,6 +3,5 @@ kind: Secret
 metadata:
   name: secret-sa-sample
   annotations:
-    kubernetes.io/service-account.name: sa-name
 data:
   extra: YmFyCg==
