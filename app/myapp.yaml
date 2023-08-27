@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myapp
+  name: myapp
+  annotations:
+    litmuschaos.io/gitops: "true"
+    litmuschaos.io/workflow: 0ddb4723-8f0f-4990-a56b-2cce2cc8d4e7
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - image: gdsoumya/myapp:1.0
+        imagePullPolicy: Always
+        name: myapp
+        ports:
+          - containerPort: 80
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 80
+  selector:
+    app: myapp
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: myapp
+type: Opaque
+data:
+  test: YWRtaW4=
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nginx-pvc
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=false
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  labels:
+    test: a1234
+  annotations:
+    test: a3434
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+        test: a1234
+      annotations:
+        test: a3434
+    spec:
+      containers:
+      - name: nginx
+        image: registry.k8s.io/nginx-slim:0.8
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: www
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: www
+        persistentVolumeClaim:
+          claimName: nginx-pvc
