@@ -1,24 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: guestbook
-  namespace: argocd
+  name: cluster-addons
 spec:
   generators:
   - git:
-      repoURL: https://github.com/argoproj/argocd-example-apps.git
+      repoURL: https://github.com/argoproj/applicationset.git
       revision: HEAD
-      files:
-      - path: ./**/**/kustomization.yaml
+      directories:
+      - path: examples/git-generator-directory/cluster-addons/*
   template:
     metadata:
-      name: 'guestbook'
+      name: '{{path.basename}}'
     spec:
-      project: "default"
+      project: default
       source:
-        repoURL: https://github.com/argoproj/argocd-example-apps/
+        repoURL: https://github.com/argoproj/applicationset.git
         targetRevision: HEAD
         path: '{{path}}'
       destination:
         name: test
-        namespace: default
+        namespace: '{{path.basename}}'
