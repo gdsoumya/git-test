@@ -20,5 +20,5 @@ spec:
         targetRevision: HEAD
         path: '{{path}}'
       destination:
-        name: in-cluster
+        name: cluster-test
         namespace: default
