@@ -20,4 +20,4 @@ spec:
         path: '{{path}}'
       destination:
         name: test2
-        namespace: '{{path.basename}}'
+        namespace: akuity2
