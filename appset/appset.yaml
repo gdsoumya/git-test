@@ -1,23 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: cluster-addons
+  name: guestbook
+  namespace: argocd
 spec:
   generators:
   - git:
-      repoURL: https://github.com/argoproj/applicationset.git
-      revision: HEAD
-      directories:
-      - path: examples/git-generator-directory/cluster-addons/*
+    repoURL: git@github.com:argoproj/argocd-example-apps.git
+    revision: HEAD
+    files:
+    - path: ./**/**/kustomization.yaml
   template:
     metadata:
-      name: '{{path.basename}}'
+      name: '{{path}}-guestbook'
     spec:
-      project: default
+      project: "default"
       source:
-        repoURL: https://github.com/argoproj/applicationset.git
+        repoURL: https://github.com/argoproj/argocd-example-apps/
         targetRevision: HEAD
         path: '{{path}}'
       destination:
-        server: https://kubernetes.default.svc
-        namespace: '{{path.basename}}'
+        name: in-cluster
+        namespace: default
