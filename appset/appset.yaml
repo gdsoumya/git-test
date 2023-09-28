@@ -6,13 +6,13 @@ metadata:
 spec:
   generators:
   - git:
-    repoURL: git@github.com:argoproj/argocd-example-apps.git
-    revision: HEAD
-    files:
-    - path: ./**/**/kustomization.yaml
+      repoURL: git@github.com:argoproj/argocd-example-apps.git
+      revision: HEAD
+      files:
+      - path: ./**/**/kustomization.yaml
   template:
     metadata:
-      name: '{{path}}-guestbook'
+      name: 'guestbook'
     spec:
       project: "default"
       source:
@@ -20,5 +20,5 @@ spec:
         targetRevision: HEAD
         path: '{{path}}'
       destination:
-        name: test
+        name: in-cluster
         namespace: default
