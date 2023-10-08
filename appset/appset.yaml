@@ -25,16 +25,16 @@ spec:
           helm:
             releaseName: sealed-secrets
         - helm:
-              parameters:
-                - name: build.enabled
-                  value: "false"
-                - name: deploy.route.tls.enabled
-                  value: "true"
-                - name: image.name
-                  value: quay.io/redhatworkshops/gitops-helm-quarkus
-            chart: quarkus
-            repoURL: https://redhat-developer.github.io/redhat-helm-charts
-            targetRevision: 0.0.3
+            parameters:
+              - name: build.enabled
+                value: "false"
+              - name: deploy.route.tls.enabled
+                value: "true"
+              - name: image.name
+                value: quay.io/redhatworkshops/gitops-helm-quarkus
+          chart: quarkus
+          repoURL: https://redhat-developer.github.io/redhat-helm-charts
+          targetRevision: 0.0.3
       destination:
         server: '{{server}}'
         namespace: '{{namespace}}'
