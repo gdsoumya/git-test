@@ -25,8 +25,8 @@ spec:
           helm:
             releaseName: sealed-secrets
         - repoURL: 'https://github.com/gdsoumya/git-test'
-        path: app/
-        targetRevision: HEAD
+          path: app/
+          targetRevision: HEAD
       destination:
         server: '{{server}}'
         namespace: '{{namespace}}'
