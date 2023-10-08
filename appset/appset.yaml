@@ -24,9 +24,17 @@ spec:
           targetRevision: 1.16.1
           helm:
             releaseName: sealed-secrets
-        - repoURL: https://github.com/argoproj/argocd-example-apps.git
-          targetRevision: HEAD
-          path: kustomize-guestbook
+        - helm:
+              parameters:
+                - name: build.enabled
+                  value: "false"
+                - name: deploy.route.tls.enabled
+                  value: "true"
+                - name: image.name
+                  value: quay.io/redhatworkshops/gitops-helm-quarkus
+            chart: quarkus
+            repoURL: https://redhat-developer.github.io/redhat-helm-charts
+            targetRevision: 0.0.3
       destination:
         server: '{{server}}'
         namespace: '{{namespace}}'
