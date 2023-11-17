@@ -1,3 +1,13 @@
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: my-pdb
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: myapp
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,7 +18,6 @@ metadata:
     litmuschaos.io/gitops: "true"
     litmuschaos.io/workflow: 0ddb4723-8f0f-4990-a56b-2cce2cc8d4e7
 spec:
-  replicas: 2
   selector:
     matchLabels:
       app: myapp
