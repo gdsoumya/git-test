@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: hello-world
-        image: centos:7
+        image: centos:6
         command:
          - "bin/bash"
          - "-c"
