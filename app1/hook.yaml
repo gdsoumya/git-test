@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: hello-
+  annotations:
+    argocd.argoproj.io/hook: SyncFail
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    metadata:
+      name: hello-world-job
+    spec:
+      containers:
+      - name: hello-world
+        image: centos:7
+        command:
+         - "bin/bash"
+         - "-c"
+         - "echo hello world"
+      restartPolicy: Never
