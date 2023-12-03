@@ -1,0 +1,101 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kargo-proj
+  labels:
+    kargo.akuity.io/project: "true"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kargo-demo-repo
+  namespace: kargo-proj
+  labels:
+    kargo.akuity.io/secret-type: repository
+stringData:
+  type: git
+  project: kargo-proj
+  url: ${GITOPS_REPO_URL}
+  username: ${GITHUB_USERNAME}
+  password: ${GITHUB_PAT}
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: kargo-demo
+  namespace: kargo-proj
+  labels:
+    kargo.akuity.io/shard: test2
+spec:
+  subscriptions:
+  - image:
+      repoURL: nginx
+      semverConstraint: ^1.24.0
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: test1
+  namespace: kargo-proj
+  labels:
+    kargo.akuity.io/shard: test1
+spec:
+  subscriptions:
+    warehouse: kargo-demo
+  promotionMechanisms:
+    gitRepoUpdates:
+    - repoURL: ${GITOPS_REPO_URL}
+      writeBranch: main
+      kustomize:
+        images:
+        - image: nginx
+          path: stages/test
+    argoCDAppUpdates:
+    - appName: kargo-demo-test1
+      appNamespace: argocd
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: test2
+  namespace: kargo-proj
+  labels:
+    kargo.akuity.io/shard: test2
+spec:
+  subscriptions:
+    upstreamStages:
+    - name: test1
+  promotionMechanisms:
+    gitRepoUpdates:
+    - repoURL: ${GITOPS_REPO_URL}
+      writeBranch: main
+      kustomize:
+        images:
+        - image: nginx
+          path: stages/uat
+    argoCDAppUpdates:
+    - appName: kargo-demo-test2
+      appNamespace: argocd
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: prod
+  namespace: kargo-proj
+  labels:
+    kargo.akuity.io/shard: prod
+spec:
+  subscriptions:
+    upstreamStages:
+    - name: test2
+  promotionMechanisms:
+    gitRepoUpdates:
+    - repoURL: ${GITOPS_REPO_URL}
+      writeBranch: main
+      kustomize:
+        images:
+        - image: nginx
+          path: stages/prod
+    argoCDAppUpdates:
+    - appName: kargo-demo-prod
+      appNamespace: argocd
