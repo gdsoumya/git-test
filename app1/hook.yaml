@@ -4,7 +4,7 @@ metadata:
   name: hello
   annotations:      
     argocd.argoproj.io/hook: SyncFail
-    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/hook-delete-policy: HookFailed
 spec:
   template:
     metadata:
